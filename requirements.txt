@@ -7,3 +7,5 @@ faiss-cpu==1.7.4
 libmagic
 python-magic
 OpenAI
+langchain-google-genai
+pysqlite3
