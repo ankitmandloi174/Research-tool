@@ -10,4 +10,3 @@ OpenAI
 langchain-google-genai
 langchain-community
 chromadb
-python-magic-bin
