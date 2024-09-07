@@ -2,18 +2,19 @@ import streamlit as st
 import time
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import UnstructuredURLLoader
-from langchain_community.embeddings import GooglePalmEmbeddings,OpenAIEmbeddings
-from langchain.llms import OpenAI
+from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Chroma
-from langchain_google_genai import GoogleGenerativeAI
 from langchain_community.chat_models import ChatOpenAI
-import conf
+import os
+import shutil
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import nltk                                                                                                                                                                                                    
+nltk.download('averaged_perceptron_tagger_eng') 
 st.title("ResearchBot")
 st.sidebar.title("OpenAI key")
 
@@ -44,10 +45,10 @@ if OPENAI_API_KEY:
     def process_urls():
         
         main_placeholder.text("Data Loading...Started...✅✅✅")
-        
+        print(f"urls {urls}")
         loader  = UnstructuredURLLoader(urls= urls)
         data = loader.load()
-        
+
         main_placeholder.text("Text Splitter...Started...✅✅✅")
         
         spliiter  = RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=1000, chunk_overlap=0)
@@ -58,7 +59,7 @@ if OPENAI_API_KEY:
         main_placeholder.text("Embedding Vector Started Building...✅✅✅")
         time.sleep(2)
         vectordb.persist()
-        main_placeholder.text("Embedding Generated Successfully...✅✅✅")
+        main_placeholder.text("You can query now...✅✅✅")
 
 
     if process_url_clicked:
@@ -73,10 +74,10 @@ if OPENAI_API_KEY:
                     retriever=retriever, 
                     input_key="question", return_source_documents=True)
         import langchain
-        langchain.debug = True
+        # langchain.debug = True
         try:
             answer = chain({"question": query}, return_only_outputs=True)
-        
+            # print(answer)
             result = answer['result']
             first_document = answer['source_documents'][1]
 
