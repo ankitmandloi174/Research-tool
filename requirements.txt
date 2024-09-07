@@ -8,4 +8,6 @@ libmagic
 python-magic
 OpenAI
 langchain-google-genai
-pysqlite3
+langchain-community
+chromadb
+python-magic-bin
